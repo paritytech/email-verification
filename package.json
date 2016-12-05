@@ -1,0 +1,17 @@
+{
+  "private": true,
+  "name": "email-verification",
+  "version": "0.1.0",
+  "description": "e-mail verification for Parity.",
+  "main": "index.js",
+  "keywords": [],
+  "author": "Ethcore Team <admin@ethcore.io>",
+  "maintainers": [
+    "Jannis R <mail@jannisr.de>"
+  ],
+  "license": "GPL-3.0",
+  "repository": "ethcore/email-verification",
+  "engine": {
+    "node": ">=6"
+  }
+}

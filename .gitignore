@@ -1,0 +1,12 @@
+.DS_STORE
+thumbs.db
+
+node_modules
+npm-debug.log
+
+contracts
+
+config/*
+!config/default.json
+
+dev.leveldb

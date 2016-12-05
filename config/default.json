@@ -1,4 +1,11 @@
 {
+  "mailjet": {
+    "key": "<Mailjet API key>",
+    "secret": "<Mailjet API secret>",
+    "sender": "<Mailjet outbound email>",
+    "namw": "Parity e-mail verification",
+    "test": false
+  },
   "http": {
     "port": 8000,
     "cert": "./self-signed.cert.pem",

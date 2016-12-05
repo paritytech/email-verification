@@ -4,6 +4,10 @@
   "version": "0.1.0",
   "description": "e-mail verification for Parity.",
   "main": "index.js",
+  "scripts": {
+    "prepush": "npm run compile",
+    "compile": "solcjs --abi --bin --optimize EmailVerification.sol -o contracts"
+  },
   "keywords": [],
   "author": "Ethcore Team <admin@ethcore.io>",
   "maintainers": [
@@ -13,5 +17,10 @@
   "repository": "ethcore/email-verification",
   "engine": {
     "node": ">=6"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "husky": "^0.11.9",
+    "solc": "^0.4.6"
   }
 }

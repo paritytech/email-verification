@@ -12,6 +12,7 @@ const sendEmail = require('./lib/send-email')
 
 module.exports = co(function* (req, res) {
   const email = req.query.email
+  if (typeof email !== 'string' || email.indexOf('@') < 0) throw boom.badRequest('E-mail is invalid.')
 
   const address = req.query.address.toLowerCase()
   if (!web3.isAddress(address)) throw boom.badRequest('Address is invalid.')

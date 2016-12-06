@@ -37,7 +37,7 @@ module.exports = co(function* (req, res) {
   }
 
   try {
-    const txHash = yield postToContract(address, code)
+    const txHash = yield postToContract(address, anonymized, code)
     console.info(`Challenge sent to contract (tx ${txHash}).`)
   } catch (err) {
     throw boom.internal('An error occured while sending to the contract.')

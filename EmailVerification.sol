@@ -25,19 +25,19 @@ contract Certifier {
 contract ProofOfEmail is Owned, Certifier {
     modifier when_fee_paid { if (msg.value < fee) return; _; }
 
-    event Requested(bytes32 emailHash);
-    event Puzzled(bytes32 indexed emailHash, bytes32 puzzle);
+    event Requested(address indexed who, bytes32 emailHash);
+    event Puzzled(address indexed who, bytes32 indexed emailHash, bytes32 puzzle);
 
-    function request(bytes32 _emailHash) when_fee_paid {
-        Requested(_emailHash);
+    function request(bytes32 _emailHash) payable when_fee_paid {
+        Requested(msg.sender, _emailHash);
     }
 
-    function puzzle(bytes32 _puzzle, bytes32 _emailHash) only_owner {
+    function puzzle(address _who, bytes32 _puzzle, bytes32 _emailHash) only_owner {
         puzzles[_puzzle] = _emailHash;
-        Puzzled(_emailHash, _puzzle);
+        Puzzled(_who, _emailHash, _puzzle);
     }
 
-    function confirm(uint32 _code) {
+    function confirm(bytes32 _code) {
         var emailHash = puzzles[sha3(_code)];
         if (emailHash == 0)
             return;
@@ -70,5 +70,5 @@ contract ProofOfEmail is Owned, Certifier {
     mapping (bytes32 => address) public reverse;
     mapping (bytes32 => bytes32) puzzles;
 
-    uint fee = 0 finney;
+    uint public fee = 0 finney;
 }

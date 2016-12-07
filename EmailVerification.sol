@@ -37,7 +37,7 @@ contract ProofOfEmail is Owned, Certifier {
         Puzzled(_who, _emailHash, _puzzle);
     }
 
-    function confirm(bytes32 _code) {
+    function confirm(bytes32 _code) returns (bool) {
         var emailHash = puzzles[sha3(_code)];
         if (emailHash == 0)
             return;

@@ -47,6 +47,7 @@ contract ProofOfEmail is Owned, Certifier {
         entries[msg.sender] = emailHash;
         reverse[emailHash] = msg.sender;
         Confirmed(msg.sender);
+        return true;
     }
 
     function setFee(uint _new) only_owner {

@@ -21,6 +21,7 @@ module.exports = co(function* (req, res) {
   try {
     code = yield generateCode()
   } catch (err) {
+    if (err.isBoom) throw err
     throw boom.internal('An error occured while generating a code.')
   }
 
@@ -40,6 +41,7 @@ module.exports = co(function* (req, res) {
     const txHash = yield postToContract(address, anonymized, code)
     console.info(`Challenge sent to contract (tx ${txHash}).`)
   } catch (err) {
+    if (err.isBoom) throw err
     throw boom.internal('An error occured while sending to the contract.')
   }
 
@@ -51,6 +53,7 @@ module.exports = co(function* (req, res) {
       message: `Verification code sent to ${email}.`
     })
   } catch (err) {
+    if (err.isBoom) throw err
     throw boom.internal('An error occured while sending the e-mail.')
   }
 })

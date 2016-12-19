@@ -32,10 +32,8 @@ api.post('/', noCache, verify)
 
 api.use((err, req, res, next) => {
   if (res.headersSent) return next()
-  console.error(err.stack)
-  if (err.isBoom) err = err.output.payload
   return res
-  .status(err.output.statusCode || 500)
+  .status(err.isBoom ? err.output.statusCode : 500)
   .json({status: 'error', message: err.message})
 })
 

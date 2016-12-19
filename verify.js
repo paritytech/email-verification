@@ -21,8 +21,7 @@ module.exports = co(function* (req, res) {
   try {
     code = yield generateCode()
   } catch (err) {
-    if (err.isBoom) throw err
-    throw boom.internal('An error occured while generating a code.')
+    throw boom.wrap(err, 500, 'An error occured while generating a code')
   }
 
   const anonymized = sha3(email)
@@ -33,16 +32,15 @@ module.exports = co(function* (req, res) {
     yield storage.put(anonymized, code)
     console.info(`Hash of e-mail (${anonymized}) put into DB.`)
   } catch (err) {
-    if (err.isBoom) throw err
-    throw boom.internal('An error occured while querying the database.')
+    throw boom.wrap(err, 500, 'An error occured while querying the database')
   }
 
   try {
     const txHash = yield postToContract(address, anonymized, code)
     console.info(`Challenge sent to contract (tx ${txHash}).`)
   } catch (err) {
-    if (err.isBoom) throw err
-    throw boom.internal('An error occured while sending to the contract.')
+    console.error(err)
+    throw boom.wrap(err, 500, 'An error occured while sending to the contract')
   }
 
   try {
@@ -53,7 +51,6 @@ module.exports = co(function* (req, res) {
       message: `Verification code sent to ${email}.`
     })
   } catch (err) {
-    if (err.isBoom) throw err
-    throw boom.internal('An error occured while sending the e-mail.')
+    throw boom.wrap(err, 500, 'An error occured while sending the e-mail')
   }
 })

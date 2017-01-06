@@ -34,7 +34,7 @@
     "nocache": "^2.0.0",
     "node-mailjet": "^3.0.6",
     "spdy": "^3.4.4",
-    "web3": "^0.17.0-beta"
+    "web3": "^0.18.0"
   },
   "devDependencies": {
     "husky": "^0.12.0",

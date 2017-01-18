@@ -13,6 +13,7 @@ const fs = require('fs')
 
 const nodeIsSynced = require('./lib/node-is-synced')
 const verify = require('./verify')
+const check = require('./check')
 
 const api = express()
 module.exports = api
@@ -37,6 +38,8 @@ api.get('/health', noCache, (req, res, next) => {
     res.status(isSynced ? 200 : 500).end()
   })
 })
+
+api.get('/', noCache, check)
 
 api.post('/', noCache, verify)
 

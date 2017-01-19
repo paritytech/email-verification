@@ -12,11 +12,11 @@ module.exports = co(function* (req, res) {
   if (typeof email !== 'string' || email.indexOf('@') < 0) throw boom.badRequest('E-mail is invalid.')
   const anonymized = sha3(email)
 
-  const address = req.query.address.toLowerCase()
+  const address = req.query.address && req.query.address.toLowerCase()
   if (!web3.isAddress(address)) throw boom.badRequest('Address is invalid.')
 
   try {
-    // todo: check if the specified email address is correct, to prevent mass retrieval of this information
+    // todo: check if the specified address is correct, to prevent mass retrieval of this information
     const hasRequested = yield storage.has(anonymized)
     if (!hasRequested) throw boom.notFound('There has not been requested any code for this e-mail.')
     return res.status(200).json({

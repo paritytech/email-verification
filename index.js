@@ -12,6 +12,7 @@ const spdy = require('spdy')
 const fs = require('fs')
 
 const nodeIsSynced = require('./lib/node-is-synced')
+const nrOfPeers = require('./lib/nr-of-peers')
 const verify = require('./verify')
 const check = require('./check')
 
@@ -31,11 +32,13 @@ morgan.token('address', (req) => req.query.address)
 api.use(morgan(':date[iso] :email :address :status :response-time ms'))
 
 api.get('/health', noCache, (req, res, next) => {
-  nodeIsSynced()
-  .catch(() => false)
-  .then((isSynced) => {
-    console.log('isSynced', isSynced)
-    res.status(isSynced ? 200 : 500).end()
+  Promise.all([
+    nodeIsSynced(),
+    nrOfPeers()
+  ])
+  .catch(() => [false, 0])
+  .then(([isSynced, nrOfPeers]) => {
+    res.status(isSynced && nrOfPeers > 0 ? 200 : 500).end()
   })
 })
 

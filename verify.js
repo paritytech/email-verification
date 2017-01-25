@@ -29,8 +29,6 @@ module.exports = co(function* (req, res) {
     if (yield storage.has(anonymized)) {
       throw boom.badRequest('This e-mail has already been verified.')
     }
-    yield storage.put(anonymized, code)
-    console.info(`Hash of e-mail (${anonymized}) put into DB.`)
   } catch (err) {
     throw boom.wrap(err, 500, 'An error occured while querying the database')
   }
@@ -41,6 +39,13 @@ module.exports = co(function* (req, res) {
   } catch (err) {
     console.error(err)
     throw boom.wrap(err, 500, 'An error occured while sending to the contract')
+  }
+
+  try {
+    yield storage.put(anonymized, code)
+    console.info(`Hash of e-mail (${anonymized}) put into DB.`)
+  } catch (err) {
+    throw boom.wrap(err, 500, 'An error occured while querying the database')
   }
 
   try {

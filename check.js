@@ -10,7 +10,7 @@ const storage = require('./lib/storage')
 module.exports = co(function* (req, res) {
   const email = req.query.email
   if (typeof email !== 'string' || email.indexOf('@') < 0) throw boom.badRequest('E-mail is invalid.')
-  const anonymized = sha3(email)
+  const anonymized = '0x' + sha3(email)
 
   const address = req.query.address && req.query.address.toLowerCase()
   if (!web3.isAddress(address)) throw boom.badRequest('Address is invalid.')

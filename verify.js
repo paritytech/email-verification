@@ -24,7 +24,7 @@ module.exports = co(function* (req, res) {
     throw boom.wrap(err, 500, 'An error occured while generating a code')
   }
 
-  const anonymized = sha3(email)
+  const anonymized = '0x' + sha3(email)
   try {
     if (yield storage.has(anonymized)) {
       throw boom.badRequest('This e-mail has already been verified.')

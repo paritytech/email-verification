@@ -30,6 +30,7 @@ module.exports = co(function* (req, res) {
       throw boom.badRequest('This e-mail has already been verified.')
     }
   } catch (err) {
+    if (err.isBoom) throw err
     throw boom.wrap(err, 500, 'An error occured while querying the database')
   }
 

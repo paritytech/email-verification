@@ -39,7 +39,14 @@ module.exports = co(function* (req, res) {
     console.info(`Challenge sent to contract (tx ${txHash}).`)
   } catch (err) {
     console.error(err)
-    throw boom.wrap(err, 500, 'An error occured while sending to the contract')
+    throw boom.wrap(err, 500, 'An error occured while querying Parity')
+  }
+
+  try {
+    yield sendEmail(email, code)
+    console.info(`Verification code sent to ${anonymized}.`)
+  } catch (err) {
+    throw boom.wrap(err, 500, 'An error occured while sending the e-mail')
   }
 
   try {
@@ -49,14 +56,8 @@ module.exports = co(function* (req, res) {
     throw boom.wrap(err, 500, 'An error occured while querying the database')
   }
 
-  try {
-    yield sendEmail(email, code)
-    console.info(`Verification code sent to ${anonymized}.`)
-    return res.status(202).json({
-      status: 'ok',
-      message: `Verification code sent to ${email}.`
-    })
-  } catch (err) {
-    throw boom.wrap(err, 500, 'An error occured while sending the e-mail')
-  }
+  return res.status(202).json({
+    status: 'ok',
+    message: `Verification code sent to ${email}.`
+  })
 })

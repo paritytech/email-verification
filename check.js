@@ -18,7 +18,7 @@ module.exports = co(function* (req, res) {
 
   try {
     if (!(yield hasRequested(address, anonymized))) {
-      throw boom.badRequest('There is no request this e-mail & address.')
+      throw boom.badRequest('There is no request with this e-mail & address.')
     }
   } catch (err) {
     if (err.isBoom) throw err
@@ -30,7 +30,7 @@ module.exports = co(function* (req, res) {
     if (!hasReceived) throw boom.notFound('There has not been sent any code for this e-mail.')
     return res.status(200).json({
       status: 'ok',
-      message: 'A code has been requested for this e-mail.'
+      message: 'A code has been sent to this e-mail.'
     })
   } catch (err) {
     throw boom.wrap(err, 500, 'An error occured while querying the database')

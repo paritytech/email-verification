@@ -35,6 +35,8 @@ token=sha(code)  ^           e-mail with code         |
 
 Now, anyone can easily **check if an account is verified by calling `certified(address)`** on the contract.
 
+[latest deployed `EmailVerification.sol`](https://github.com/ethcore/contracts/blob/d86490e/EmailVerification.sol)
+
 ## Installation
 
 ```shell
